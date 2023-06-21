@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------------
 
-## createPerfTest will create a number of namespaces and deployements of busybox which will mount a pvc with $storageclassname with $number_of_files from /dev/urandom of size $pcvSizeGi - $COMMAND function
+### createPerfTest will create a number of namespaces and deployments of busybox which will mount a pvc with $storageclassname with $number_of_files from /dev/urandom of size $pcvSizeGi - $COMMAND function
 ./createPerfTest 
 
 --namespacePrexix=small 
