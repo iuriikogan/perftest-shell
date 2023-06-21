@@ -28,50 +28,52 @@ do
 
   # Create the namespace
   kubectl create namespace $NAMESPACE
-
-  # Create the PVC
-  kubectl -n $NAMESPACE apply -f - <<EOF
-  apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    name: pvc-$NAMESPACE
-  spec:
-    accessModes:
-      - ReadWriteOnce
-    resources:
-      requests:
-        storage: $PVC_SIZE
-    storageClassName: $STORAGE_CLASS
+  # Create the PVCs and deployments for $NUM_OF_PVC_PER_NS
+  for ((j=1; j<=NUM_PVC_PER_NS; j++)); do
+    # Create the PVC for each Deploy 
+    kubectl -n $NAMESPACE apply -f - <<EOF
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: pvc-$NAMESPACE-$j
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: $PVC_SIZE
+      storageClassName: $STORAGE_CLASS
 EOF
 
-  # Create the deployment
-  kubectl -n $NAMESPACE apply -f - <<EOF
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: busybox-deployment-$NAMESPACE
-  spec:
-    replicas: 1
-    selector:
-      matchLabels:
-        app: busybox
-    template:
-      metadata:
-        labels:
+# Create the deployment
+    kubectl -n $NAMESPACE apply -f - <<EOF
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: busybox-deployment-$NAMESPACE-$j
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
           app: busybox
-      spec:
-        containers:
-          - name: busybox
-            image: $IMAGE_NAME
-            command: ["/bin/sh", "-c", $COMMAND; "done"]
-            volumeMounts:
-            - name: data
+      template:
+        metadata:
+          labels:
+            app: busybox
+        spec:
+          containers:
+            - name: busybox-$NAMESPACE-$j
+              image: $IMAGE_NAME
+              command: ["/bin/sh", "-c", $COMMAND; "done"]
+              volumeMounts:
+              - name: data
               mountPath: /data
         volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: pvc-$NAMESPACE
+            claimName: pvc-$NAMESPACE-$j
 EOF
-
-  echo "Namespace $NAMESPACE created with deployment and PVC."
+  done
+    echo "deployment and PVC created for deployment $NAMESPACE-$j"
 done
+  echo "Created namespace $NAMESPACE"
