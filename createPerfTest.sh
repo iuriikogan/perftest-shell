@@ -67,7 +67,7 @@ EOF
               command: ["/bin/sh", "-c", $COMMAND; "done"]
               volumeMounts:
               - name: data
-                mountPath: /data
+                mountPath: /data/files
           volumes:
           - name: data
             persistentVolumeClaim:
