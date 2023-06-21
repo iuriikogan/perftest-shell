@@ -19,7 +19,7 @@ STORAGE_CLASS="managed-premium"
 
 # Set the command to run in the busybox container
 
-COMMAND="dd if=/dev/urandom of=/data/files/file\$i bs=$SIZE_OF_FILES count=$NUMBER_OF_FILES"
+COMMAND="dd if=/dev/urandom of=/data/files/file\$j bs=$SIZE_OF_FILES count=$NUMBER_OF_FILES"
 
 # Loop to create namespaces and deployments
 for ((i=1; i<=NUM_NAMESPACES; i++))
