@@ -11,9 +11,9 @@ IMAGE_NAME="busybox"
 
 # Set the PVC size number of PVC (replicas of deployment)and storage class
 
-PVC_SIZE="30Gi"
+PVC_SIZE_Gi=30
 NUMBER_OF_FILES=30
-SIZE_OF_FILES=1Gi
+SIZE_OF_FILES="1GB"
 NUM_PVC_PER_NS=10
 STORAGE_CLASS="managed-premium"
 
