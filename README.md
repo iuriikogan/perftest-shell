@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 
 ## Kasten Performance Test enviroment 
-### ./createPerfTest will create a number of namespaces and deployments of busybox which will mount a pvc with $storageclassname with $number_of_files from /dev/urandom of size $pcvSizeGi - $COMMAND function
-
+#### ./createPerfTest.sh will create a number of namespaces and deployments of busybox which will mount a pvc with $storageclassname with $number_of_files from /dev/urandom of size $pcvSizeGi - $COMMAND function
+#### ./churnPerfTest.sh will exec into each pod and delete $NUM_OF_FILES replacing with $NUM_OF_FILES of $FILE_SIZE
 ### *****SET ENVS in createPerfTest.sh
 
 #### NUM_NAMESPACES=3
@@ -19,8 +19,8 @@
 ### Create churn of each replicas/pvcs files based on the churnratepercentage
 ### *******Set ENVs in churnPerfTest.sh
 #### NAMESPACE_PREFIX="small"
-#### NUM_FILES=5
-#### FILE_SIZE="1Gb"
+#### NUM_FILES_TO_CHURN=5
+#### SIZE_OF_FILES="1Gb"
 
 
 ### ./churnPerfTest
