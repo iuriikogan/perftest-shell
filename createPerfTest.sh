@@ -13,29 +13,29 @@ IMAGE_NAME="busybox"
 
 PVC_SIZE="30Gi"
 NUMBER_OF_FILES=30
-SIZE_OF_FILES="1GB"
+SIZE_OF_FILES="1Gi"
 NUM_PVC_PER_NS=3
 STORAGE_CLASS="managed-premium"
 
 # Set the command to run in the busybox container
 
-COMMAND="dd if=/dev/urandom of=/data/files/file\$j bs=$SIZE_OF_FILES count=$NUMBER_OF_FILES"
+COMMAND="dd if=/dev/urandom of=/data/files/file bs=$SIZE_OF_FILES count=$NUMBER_OF_FILES"
 
 # Loop to create namespaces and deployments
 for ((i=1; i<=NUM_NAMESPACES; i++))
 do
-  NAMESPACE="$NAMESPACE_PREFIX-$i"
+  NAMESPACE="$NAMESPACE_PREFIX$i"
 
   # Create the namespace
   kubectl create namespace $NAMESPACE
   # Create the PVCs and deployments for $NUM_OF_PVC_PER_NS
-  for ((j=1; j<=NUM_PVC_PER_NS; j++)); do
+  for ((j=1; j<=$NUM_PVC_PER_NS; j++)); do
     # Create the PVC for each Deploy 
     kubectl -n $NAMESPACE apply -f - <<EOF
     apiVersion: v1
     kind: PersistentVolumeClaim
     metadata:
-      name: pvc-$NAMESPACE-$j
+      name: pvc-$NAMESPACE$j
     spec:
       accessModes:
         - ReadWriteOnce
@@ -64,16 +64,17 @@ EOF
           containers:
             - name: busybox-$NAMESPACE-$j
               image: $IMAGE_NAME
-              command: ["/bin/sh", "-c", $COMMAND; "done"]
+              command: ["/bin/sh", "-c", "dd if=/dev/urandom of=/data/files/file bs=$SIZE_OF_FILES count=$NUMBER_OF_FILES"; "done"]
               volumeMounts:
               - name: data
                 mountPath: /data/files
           volumes:
           - name: data
             persistentVolumeClaim:
-              claimName: pvc-$NAMESPACE-$j
+              claimName: pvc-$NAMESPACE$j
 EOF
   done
     echo "deployment and PVC created for deployment $NAMESPACE-$j"
 done
   echo "Created namespace $NAMESPACE"
+
