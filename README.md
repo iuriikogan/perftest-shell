@@ -18,7 +18,10 @@
 
 ### Create churn of each replicas/pvcs files based on the churnratepercentage
 ### *******Set ENVs in churnPerfTest.sh********
-#### churnratepercentage=10
+#### NAMESPACE_PREFIX="small"
+#### NUM_FILES=5
+#### FILE_SIZE="1Gb"
+
 
 ### ./churnPerfTest
 
