@@ -1,7 +1,7 @@
 #!/bin/bash
 ## set env vars
 NAMESPACE_PREFIX="small"
-NUM_FILE_TO_CHURNS=5
+NUM_FILE_TO_CHURN=5
 SIZE_OF_FILES="1Gb"
 
 # Get the list of namespaces with the prefix
