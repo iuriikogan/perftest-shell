@@ -27,4 +27,4 @@
 
 ### Delete all namespaces based on the $NAMESPACE_PREFIX
 ### ./deletePerfTest
-#### grep for $NAMESPACE_PREFIX from createPerfTest.sh
+#### ******grep for $NAMESPACE_PREFIX from createPerfTest.sh
