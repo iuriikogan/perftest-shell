@@ -1,18 +1,24 @@
 #!/bin/bash
 
 # Set the number of namespaces to create
+
 NUM_NAMESPACES=10
 NAMESPACE_PREFIX="Small"
+
 # Set the image name for the busybox container
+
 IMAGE_NAME="busybox"
 
 # Set the PVC size number of PVC (replicas of deployment)and storage class
-PVC_SIZE="30Gb"
+
+PVC_SIZE="30Gi"
 NUMBER_OF_FILES=30
-SIZE_OF_FILES=1Gb
+SIZE_OF_FILES=1Gi
 NUM_PVC_PER_NS=10
 STORAGE_CLASS="managed-premium"
+
 # Set the command to run in the busybox container
+
 COMMAND="dd if=/dev/urandom of=/data/file\$i bs=$SIZE_OF_FILES count=$NUMBER_OF_FILES"
 
 # Loop to create namespaces and deployments
