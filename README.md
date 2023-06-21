@@ -1,9 +1,9 @@
 -------------------------------------------------------------------------------
 
-## Kasetn Performance Test enviroment 
-###./createPerfTest will create a number of namespaces and deployments of busybox which will mount a pvc with $storageclassname with $number_of_files from /dev/urandom of size $pcvSizeGi - $COMMAND function
+## Kasten Performance Test enviroment 
+### ./createPerfTest will create a number of namespaces and deployments of busybox which will mount a pvc with $storageclassname with $number_of_files from /dev/urandom of size $pcvSizeGi - $COMMAND function
 
-###*****SET ENVS in createPerfTest.sh********* 
+### *****SET ENVS in createPerfTest.sh********* 
 
 #### NUM_NAMESPACES=3
 #### NAMESPACE_PREFIX="small"
