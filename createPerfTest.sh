@@ -67,11 +67,11 @@ EOF
               command: ["/bin/sh", "-c", $COMMAND; "done"]
               volumeMounts:
               - name: data
-              mountPath: /data
-        volumes:
-        - name: data
-          persistentVolumeClaim:
-            claimName: pvc-$NAMESPACE-$j
+                mountPath: /data
+          volumes:
+          - name: data
+            persistentVolumeClaim:
+              claimName: pvc-$NAMESPACE-$j
 EOF
   done
     echo "deployment and PVC created for deployment $NAMESPACE-$j"
