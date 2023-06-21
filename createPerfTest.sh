@@ -2,7 +2,7 @@
 
 # Set the number of namespaces to create
 
-NUM_NAMESPACES=10
+NUM_NAMESPACES=3
 NAMESPACE_PREFIX="small"
 
 # Set the image name for the busybox container
@@ -14,7 +14,7 @@ IMAGE_NAME="busybox"
 PVC_SIZE="30Gi"
 NUMBER_OF_FILES=30
 SIZE_OF_FILES="1GB"
-NUM_PVC_PER_NS=10
+NUM_PVC_PER_NS=3
 STORAGE_CLASS="managed-premium"
 
 # Set the command to run in the busybox container
