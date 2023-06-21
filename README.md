@@ -2,7 +2,11 @@
 
 ## Kasten Performance Test enviroment 
  ./createPerfTest.sh will create a number of namespaces and deployments of busybox which will mount a pvc with $storageclassname with $number_of_files from /dev/urandom of size $pcvSizeGi - $COMMAND function
+ 
  ./churnPerfTest.sh will exec into each pod and delete $NUM_OF_FILES replacing with $NUM_OF_FILES of $FILE_SIZE
+
+ ./deletePerfTest.sh will loop through all namespaces with Prefix and delete each ns
+ 
 *****SET ENVS in createPerfTest.sh
 
 NUM_NAMESPACES=3
