@@ -13,19 +13,21 @@ IMAGE_NAME="busybox"
 
 PVC_SIZE="30Gi"
 NUMBER_OF_FILES=30
-SIZE_OF_FILES="1Gi"
+SIZE_OF_FILES="1GB"
 NUM_PVC_PER_NS=3
 STORAGE_CLASS="managed-premium"
 
 # Set the command to run in the busybox container
 
-COMMAND="dd if=/dev/urandom of=/data/files/file bs=$SIZE_OF_FILES count=$NUMBER_OF_FILES"
+COMMAND="dd if=/dev/urandom of=/data/files/file bs=${SIZE_OF_FILES} count=1"
 
 # Loop to create namespaces and deployments
 for ((i=1; i<=NUM_NAMESPACES; i++))
 do
-  NAMESPACE="$NAMESPACE_PREFIX$i"
-
+  NAMESPACE="$NAMESPACE_PREFIX-$i"
+  echo "*********************************
+  Creating namespace $NAMESPACE**********
+  **************************************"
   # Create the namespace
   kubectl create namespace $NAMESPACE
   # Create the PVCs and deployments for $NUM_OF_PVC_PER_NS
@@ -35,14 +37,14 @@ do
     apiVersion: v1
     kind: PersistentVolumeClaim
     metadata:
-      name: pvc-$NAMESPACE$j
+      name: pvc-${NAMESPACE}-${j}
     spec:
       accessModes:
         - ReadWriteOnce
       resources:
         requests:
-          storage: $PVC_SIZE
-      storageClassName: $STORAGE_CLASS
+          storage: ${PVC_SIZE}
+      storageClassName: ${STORAGE_CLASS}
 EOF
 
 # Create the deployment
@@ -50,7 +52,7 @@ EOF
     apiVersion: apps/v1
     kind: Deployment
     metadata:
-      name: busybox-deployment-$NAMESPACE-$j
+      name: busybox-deploy-${NAMESPACE}-${j}
     spec:
       replicas: 1
       selector:
@@ -62,19 +64,20 @@ EOF
             app: busybox
         spec:
           containers:
-            - name: busybox-$NAMESPACE-$j
-              image: $IMAGE_NAME
-              command: ["/bin/sh", "-c", "dd if=/dev/urandom of=/data/files/file bs=$SIZE_OF_FILES count=$NUMBER_OF_FILES"; "done"]
+            - name: busybox-pod-${NAMESPACE}-${j}
+              image: ${IMAGE_NAME}
+              command: ["/bin/sh", "-c", "${COMMAND}", "done"]
               volumeMounts:
               - name: data
                 mountPath: /data/files
           volumes:
           - name: data
             persistentVolumeClaim:
-              claimName: pvc-$NAMESPACE$j
+              claimName: pvc-${NAMESPACE}-${j}
 EOF
   done
-    echo "deployment and PVC created for deployment $NAMESPACE-$j"
+  echo "********************************************
+  Tried to create pvcs and deployments in $NAMESPACE
+  *************************************************"
 done
-  echo "Created namespace $NAMESPACE"
 
